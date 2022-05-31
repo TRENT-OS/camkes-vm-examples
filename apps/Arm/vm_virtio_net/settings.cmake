@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 #
 
-set(supported "exynos5422;tx2")
+set(supported "exynos5422;tx2;qemu-arm-virt")
 if(NOT "${PLATFORM}" IN_LIST supported)
     message(FATAL_ERROR "PLATFORM: ${PLATFORM} not supported.
          Supported: ${supported}")
@@ -17,4 +17,10 @@ else()
     set(VmVirtioNetArping ON CACHE BOOL "" FORCE)
 endif()
 set(VmInitRdFile ON CACHE BOOL "" FORCE)
-set(VmDtbFile ON CACHE BOOL "provide dtb" FORCE)
+#set(VmDtbFile ON CACHE BOOL "provide dtb" FORCE)
+if(${PLATFORM} STREQUAL "qemu-arm-virt")
+    # force cpu
+    set(QEMU_MEMORY "3072")
+    set(KernelArmCPU cortex-a53 CACHE STRING "" FORCE)
+endif()
+

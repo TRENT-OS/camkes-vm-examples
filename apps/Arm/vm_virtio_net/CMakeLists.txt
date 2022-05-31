@@ -26,6 +26,15 @@ elseif("${KernelARMPlatform}" STREQUAL "tx2")
     set(rootfs_address "0xf7000000")
     set(dtb_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux-pci-dtb")
     set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs_crossvm.cpio.gz")
+elseif("${KernelARMPlatform}" STREQUAL "qemu-arm-virt")
+    # Create our CPP Flags based on ARM VM config variables
+    set(cpp_flags "-DKERNELARMPLATFORM_QEMU-ARM-VIRT")
+    set(SIMULATION ON CACHE BOOL "Generate simulation script to run qemu with the proper arguments")
+    include(simulation)
+    if(SIMULATION)
+        GenerateSimulateScript()
+    endif()
+    set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/rootfs.cpio.gz")
 endif()
 
 # Generate overlayed rootfs
@@ -63,17 +72,17 @@ AddOverlayDirToRootfs(
 )
 
 # Updated dtb based on generated initrd
-UpdateDtbFromInitrd(
-    ${dtb_file}
-    ${output_overlayed_rootfs_location}
-    ${rootfs_address}
-    dtb_gen_target
-    output_dtb_location
-    DEPENDS
-    rootfs_target
-)
+#UpdateDtbFromInitrd(
+	#${dtb_file}
+    #${output_overlayed_rootfs_location}
+    #${rootfs_address}
+    #dtb_gen_target
+    #output_dtb_location
+    #DEPENDS
+    #rootfs_target
+    #)
 
-AddToFileServer("linux-dtb" "${output_dtb_location}" DEPENDS dtb_gen_target)
+#AddToFileServer("linux-dtb" "${output_dtb_location}" DEPENDS dtb_gen_target)
 AddToFileServer("linux-initrd" ${output_overlayed_rootfs_location} DEPENDS rootfs_target)
 AddToFileServer("linux" "${CAMKES_VM_IMAGES_DIR}/${KernelARMPlatform}/linux")
 

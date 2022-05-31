@@ -93,14 +93,14 @@ elseif("${KernelARMPlatform}" STREQUAL "qemu-arm-virt")
     set(rootfs_file "${CAMKES_VM_IMAGES_DIR}/qemu-arm-virt/rootfs.cpio.gz")
     AddToFileServer("linux-initrd" ${rootfs_file})
     # Updated dtb based on initrd
-    UpdateDtbFromInitrd(
-        "${CAMKES_VM_IMAGES_DIR}/qemu-arm-virt/linux-dtb"
-        ${rootfs_file}
-        "0x4d700000"
-        dtb_gen_target
-        output_dtb_location
-    )
-    AddToFileServer("linux-dtb" "${output_dtb_location}" DEPENDS dtb_gen_target)
+   # UpdateDtbFromInitrd(
+   #     "${CAMKES_VM_IMAGES_DIR}/qemu-arm-virt/linux-dtb"
+   #     ${rootfs_file}
+   #     "0x4d700000"
+   #     dtb_gen_target
+   #     output_dtb_location
+   # )
+   # AddToFileServer("linux-dtb" "${output_dtb_location}" DEPENDS dtb_gen_target)
     include(simulation)
     set(SIMULATION ON CACHE BOOL "Generate simulation script to run qemu with the proper arguments")
     if(SIMULATION)
