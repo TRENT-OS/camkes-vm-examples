@@ -62,14 +62,14 @@ assembly {
         };
 
         vm1.linux_image_config = {
-            "linux_bootcmdline" : "earlycon=ttyAMA0 console=ttyAMA0 earlyprintk=ttyAMA0 console=hvc0 nosmp rw debug loglevel=8 pci=nomsi,realloc=off,bios initcall_blacklist=clk_disable_unused",
-            //"linux_stdout" : "hvc0",
-            "linux_stdout" : "/pl011@9000000",
+            "linux_bootcmdline" : "earlycon=ttyAMA0 earlyprintk=ttyAMA0 console=hvc0 nosmp rw debug loglevel=8 pci=nomsi,realloc=off,bios initcall_blacklist=clk_disable_unused",
+            "linux_stdout" : "hvc0",
+            //"linux_stdout" : "/pl011@9000000",
 	    "initrd_name"  : "linux-initrd-vm1",
         };
 
-        //vm1.dtb = dtb([{},]);
-        vm1.dtb = dtb([{"path": "/pl011@9000000"},]);
+        vm1.dtb = dtb([{},]);
+        //vm1.dtb = dtb([{"path": "/pl011@9000000"},]);
 	
 	vm1.mmios = [ "0x8040000:0x1000:12", 
                       "0x8020000:0x1000:12", ];

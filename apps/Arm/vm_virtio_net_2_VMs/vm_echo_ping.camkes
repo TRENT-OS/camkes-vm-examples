@@ -45,6 +45,8 @@ assembly {
         VM_COMPOSITION_DEF(0)
 	VM_COMPOSITION_DEF(1)
 
+	VM_VIRTUAL_SERIAL_COMPOSITION_DEF(0,1)
+
         component PingClient ping_client;
         component VirtQueueInit ping_vqinit0;
         component VirtQueueInit ping_vqinit1;
@@ -59,6 +61,8 @@ assembly {
         VM_GENERAL_CONFIGURATION_DEF()
         VM_CONFIGURATION_DEF(0)
         VM_CONFIGURATION_DEF(1)
+
+	VM_VIRTUAL_SERIAL_CONFIGURATION_DEF(0,1)
 	
         vm0.num_extra_frame_caps = 0;
         vm0.extra_frame_map_address = 0;
