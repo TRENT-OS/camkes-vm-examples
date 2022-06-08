@@ -61,6 +61,7 @@ assembly {
             "initrd_addr" : VAR_STRINGIZE(VM1_INITRD_ADDR)
         };
 
+	vm1.linux_debug_name = "linux-vm1";
         vm1.linux_image_config = {
             "linux_bootcmdline" : "earlycon=ttyAMA0 earlyprintk=ttyAMA0 console=hvc0 nosmp rw debug loglevel=8 pci=nomsi,realloc=off,bios initcall_blacklist=clk_disable_unused",
             "linux_stdout" : "hvc0",
