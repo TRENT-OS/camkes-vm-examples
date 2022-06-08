@@ -39,6 +39,13 @@ endif()
 
 # Generate overlayed rootfs VM0
 AddFileToOverlayDir(
+	"inittab"
+	${CMAKE_CURRENT_SOURCE_DIR}/overlay_files/init_scripts/inittab_hvc0
+	"etc"
+	overlay_vm0
+	)
+
+AddFileToOverlayDir(
     "interfaces"
     ${CMAKE_CURRENT_SOURCE_DIR}/overlay_files/network_interfaces/interfaces_vm0
     "etc/network"
@@ -64,6 +71,13 @@ AddOverlayDirToRootfs(
 
 
 # Generate overlayed rootfs VM1
+AddFileToOverlayDir(
+	"inittab"
+	${CMAKE_CURRENT_SOURCE_DIR}/overlay_files/init_scripts/inittab_hvc0
+	"etc"
+	overlay_vm1
+	)
+
 AddFileToOverlayDir(
     "interfaces"
     ${CMAKE_CURRENT_SOURCE_DIR}/overlay_files/network_interfaces/interfaces_vm1
