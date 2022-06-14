@@ -42,12 +42,11 @@ assembly {
         //vm0.dtb = dtb([{"path": "/pl011@9000000"},]);
         vm0.dtb = dtb([{},]);
 	
-	vm0.mmios = [ "0x8040000:0x1000:12", 
-                      "0x8020000:0x1000:12", ];
+
+	vm0.mmios = [ "0x8040000:0x1000:12", // Interrupt Controller Virtual CPU interface (Virtual Machine view) 
+                      ];
 	
         vm0.untyped_mmios = [
-                  //  "0x8020000:12",
-                  //  "0x8040000:12", // Interrupt Controller Virtual CPU interface (Virtual Machine view)
                     "0x40000000:28", // Linux kernel memory regions
                     ];
 	
@@ -72,12 +71,10 @@ assembly {
         vm1.dtb = dtb([{},]);
         //vm1.dtb = dtb([{"path": "/pl011@9000000"},]);
 	
-	vm1.mmios = [ "0x8040000:0x1000:12", 
-                      "0x8020000:0x1000:12", ];
+	vm1.mmios = [ "0x8040000:0x1000:12", // Interrupt Controller Virtual CPU interface (Virtual Machine view)
+		 ];
 	
         vm1.untyped_mmios = [
-                  //  "0x8030000:12",
-                  //  "0x8040000:12", // Interrupt Controller Virtual CPU interface (Virtual Machine view)
                     "0x50000000:28", // Linux kernel memory regions
                     ];
 	} 
