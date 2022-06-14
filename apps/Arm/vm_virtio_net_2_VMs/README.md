@@ -6,18 +6,22 @@
 
 # Virtio Net Demo Application
 
-The `vm_virtio_net` application demonstrates the use of the VirtNet ethernet device in a Linux guest VM
-in order to communicate to other components. In particular the application establishes a single VM that will
+The `vm_virtio_net_2_VMs` application demonstrates the use of the VirtNet ethernet device in a Linux guest VM
+in order to communicate to other components. In particular the application establishes two VM that will
 send and recieve packets over its `eth0` ethernet device.
 
 ### Virtio Net Ping
 
-The Virtio Net Ping application demonstrates a Linux guest that runs `ping` over its `eth0` interface. This results
-in ICMP Echo request packets being sent to the VMM over the Virtio Net driver. The VMM recieves these packets and
+The Virtio Net Ping application demonstrates two Linux guests that runs `ping` over its `eth0` interface. This results
+in ICMP Echo request packets being sent to the VMM over the Virtio Net driver. The VMM0 recieves these packets and
 forwards them over a virtqueue-based interface connected to a native server component, being `PingClient`. The Ping Client
 component will unpack the ICMP packets, print the packet contents and respond with an ICMP Echo Reply. The response is
 sent back to the VMM over the virtqueue interface and forwarded to the Linux guest. The diagram below illustrates the
 composition of this system.
+
+VMM1 also recieves these packets, however because it does not have a route configured to the `PingClient`, the packet is
+dropped by the VMM1 vswitch component. So if VMs should be able to talk to each other, they need a direct connection to 
+that VM
 
     +--------------------------+ +-----------------------+
     |                          | |                       |
@@ -46,12 +50,15 @@ The following instructions builds the application for the Odroid XU4:
 ```
 mkdir build
 cd build
- ../init-build.sh -DCAMKES_VM_APP=vm_virtio_net -DVIRTIO_NET_PING=1 -DAARCH32=1 -DPLATFORM=exynos5422
+ ../init-build.sh -DCAMKES_VM_APP=vm_virtio_net_2_VMs -DVIRTIO_NET_PING=1 -DPLATFORM=qemu-arm-virt
 ```
 
-When built successfully, the created image will be found at the following location: `images/capdl-loader-image-arm-exynos5`.
+When built successfully, the simulation can be started with
+```
+./simulation.sh
+```
 
-Running the given image should produce the following output:
+Running the given simulation should produce the following output for one VM:
 
 ```
 Testing ping on virtual interface:
@@ -120,4 +127,10 @@ ICMP Header - Type: 8 | id: 125 | seq: 1024
 --- 192.168.1.2 ping statistics ---
 5 packets transmitted, 5 packets received, 0% packet loss
 round-trip min/avg/max = 4988.738/7061.136/9133.245 ms
+```
+
+The second VM should timeout and Show
+```
+--- 192.168.1.2 ping statistics ---
+5 packets transmitted, 0 packets received, 100% packet loss
 ```
